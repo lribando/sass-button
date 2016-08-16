@@ -1,0 +1,100 @@
+/*
+This is a simple, reusable button template with states for active and disabled.
+
+Active State- a bright button with pointer to show it is clickable
+
+Disabled State- the button fades in color when in the disabled state and will show a tip on hover
+
+Global Variables- this template sets the font type and color assuming a consistent style guide. It can be modifed in the global variables, however it is recommended to keep the font color white if using a dark colored background
+
+Transition- the button will fade in and out of opacity based on whether the button is enabled or disabled
+
+Using the button theme mixin:
+1) Include btn-theme: @include btn-theme
+2) Specify the color of the button, width, height and font-size
+3) Optionally, you can include a radius in your button class: @include radius(radius value)
+4) Tip- A tip bubble will appear on hover in the disabled state, where you can prompt the user on what they need to do in order to activate the button
+i.e- complete form, fill in all fields, etc.
+Include the tip feature by adding an element to your page containing the text you want as your tip and assigning class "tip"
+*/
+
+//Global Variables
+$fontStack: "Neutraface2TextBook","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+$fontColor: #FFF;
+
+//transition mixin for browsers
+@mixin transition($val...) {
+  -webkit-transition: $val;
+  -moz-transition: $val;
+  -o-transition: $val;
+  transition: $val;
+}
+
+//an optional radius to include in your button
+@mixin radius($radius) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+//animation class to extend for tip
+.tip-animation {
+  display: inline-block;
+  position: absolute;
+  top: 65px;
+  color: #FFF;
+  font-size: 14px;
+  z-index: 1;
+  padding: 5px;
+  background-color: #6e727d;
+  text-align: center;
+  border-radius: 6px;
+}
+
+//static button style to extend
+.button-static {
+  @include transition(opacity 1s);
+  border: none;
+  color: $fontColor;
+  cursor: pointer;
+  font-family: $fontStack;
+  opacity: 100;
+  text-decoration: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .40;
+    &:hover + .tip {
+      @extend .tip-animation;
+    }
+  }
+  &:hover {
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+//hidden tip, will activate when a user hovers the button in disabled state only if you add it to your page as an element containing the text
+.tip {
+  display: none;
+}
+
+//button theme to customize color, text size and size
+@mixin btn-theme($bgColor, $font-size, $height, $width) {
+  @extend .button-static;
+  background-color: $bgColor;
+  font-size: $font-size;
+  height: $height;
+  width: $width;
+}
+
+#new-button {
+  @include btn-theme (red, 16px, 45px, 190px);
+  margin: 3px;
+}
+
+#button-2 {
+  @include btn-theme (blue, 16px, 45px, 190px);
+  margin: 3px;
+}
