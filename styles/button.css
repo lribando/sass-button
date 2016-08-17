@@ -1,15 +1,15 @@
 .tip-animation, .button-static:disabled:hover + .tip, #new-button:disabled:hover + .tip {
-  opacity: 100;
+  -moz-transition: opacity 3s, margin-left 0.5s;
+  -o-transition: opacity 3s, margin-left 0.5s;
+  -webkit-transition: opacity 3s, margin-left 0.5s;
+  transition: opacity 3s, margin-left 0.5s;
   margin-left: 5px;
-  -webkit-transition: opacity 3s, margin-left 2s;
-  -moz-transition: opacity 3s, margin-left 2s;
-  -o-transition: opacity 3s, margin-left 2s;
-  transition: opacity 3s, margin-left 2s; }
+  opacity: 100; }
 
 .button-static, #new-button {
-  -webkit-transition: opacity 3s;
   -moz-transition: opacity 3s;
   -o-transition: opacity 3s;
+  -webkit-transition: opacity 3s;
   transition: opacity 3s;
   border: none;
   color: #FFF;
@@ -28,41 +28,43 @@
 #new-button {
   background-color: blue;
   font-size: 16px;
-  height: 45px;
   width: 190px;
+  height: 45px;
   margin: 3px; }
 
 .tip {
-  margin-left: -20px;
-  opacity: 0;
-  width: 50px;
-  height: 50px;
-  background: red;
-  position: relative;
+  background-color: red;
+  color: #FFF;
   display: inline-block;
+  width: 45px;
+  height: 45px;
+  opacity: 0;
+  margin-left: -20px;
+  position: relative;
   top: 0;
   vertical-align: middle; }
-
-.tip:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-bottom: 15px solid red;
-  border-left: 15px solid #fff;
-  border-right: 15px solid #fff;
-  width: 20px;
-  height: 0; }
-
-.tip:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  border-top: 15px solid red;
-  border-left: 15px solid #fff;
-  border-right: 15px solid #fff;
-  width: 20px;
-  height: 0; }
+  .tip:before {
+    content: "!";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 15px solid red;
+    border-left: 15px solid #fff;
+    border-right: 15px solid #fff;
+    width: 15px;
+    height: 0;
+    text-align: center;
+    line-height: 45px;
+    font-size: 22.5px; }
+  .tip:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 15px solid red;
+    border-left: 15px solid #fff;
+    border-right: 15px solid #fff;
+    width: 15px;
+    height: 0; }
 
 /*# sourceMappingURL=button.css.map */

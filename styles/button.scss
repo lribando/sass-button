@@ -5,9 +5,9 @@ $fontColor: #FFF;
 
 //transition mixin for browsers
 @mixin transition($val...) {
-  -webkit-transition: $val;
   -moz-transition: $val;
   -o-transition: $val;
+  -webkit-transition: $val;
   transition: $val;
 }
 
@@ -22,10 +22,9 @@ $fontColor: #FFF;
 
 //animation class to extend for tip
 .tip-animation {
-  opacity: 100;
+  @include transition(opacity 3s, margin-left .5s);
   margin-left: 5px;
-  @include transition(opacity 3s, margin-left 2s);
-
+  opacity: 100;
 }
 
 //static button style to extend
@@ -54,52 +53,74 @@ $fontColor: #FFF;
 }
 
 
-//button theme to customize color, text size and size (values can be specified in any method supported)
-@mixin btn-theme($bgColor, $font-size, $height, $width) {
+//button theme to customize color, text size and size (colors can be specified in values that are supported, it is recommended to use pixel units for now as this is not responsive yet)
+@mixin btn-theme($bgColor, $font-size, $width, $height) {
   @extend .button-static;
   background-color: $bgColor;
   font-size: $font-size;
-  height: $height;
   width: $width;
+  height: $height;
 }
 
+// mixin for the disable animation where height will passed in to create a a stop sign icon relative to  the button's height
+@mixin tip-generator($height) { 
+  @if $height % 3 != 0 {
+    $height: floor($height/3)*3;
+  }
+  @if $height < 12 {
+    $height: 12px;
+  }
+  $borderWidth: $height/3;
+  background-color: red;
+  color: #FFF;
+  display: inline-block;
+  width: $height;
+  height: $height;
+  opacity: 0;
+  margin-left: -20px;
+  position: relative; 
+  top: 0;
+  vertical-align: middle;
+  
+  &:before {
+    content: "!";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: $borderWidth solid red;
+    border-left: $borderWidth solid #fff;
+    border-right: $borderWidth solid #fff;
+    width: $borderWidth;
+    height: 0;
+    text-align: center;
+    line-height: $height;
+    font-size: $height/2;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: $borderWidth solid red;
+    border-left: $borderWidth solid #fff;
+    border-right: $borderWidth solid #fff;
+    width: $borderWidth; //dynamic
+    height: 0;
+  }
+}
+
+
+//Styles for button-challenge.html (these would normally be in separate file but for testing purposes I am putting everything in one but realize this is bad structure!)
+
+
 #new-button {
-  @include btn-theme (blue, 16px, 45px, 190px);
+  @include btn-theme (blue, 16px, 190px, 45px);
   margin: 3px;
 }
 
 .tip {
-  margin-left: -20px;
-  opacity: 0;
-  width: 50px;
-  height: 50px;
-  background: red;
-  position: relative;
-  display: inline-block;
-  top: 0;
-  vertical-align: middle;
+  @include tip-generator(45px);
 }
 
-.tip:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-bottom: 15px solid red;
-  border-left: 15px solid #fff;
-  border-right: 15px solid #fff;
-  width: 20px;
-  height: 0;
-}
 
-.tip:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  border-top: 15px solid red;
-  border-left: 15px solid #fff;
-  border-right: 15px solid #fff;
-  width: 20px;
-  height: 0;
-}
